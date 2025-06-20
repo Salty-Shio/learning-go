@@ -11,19 +11,22 @@ Getting more specific:
 
 ```Go
 // Defined variable without initializing it to a value. The type is explicilty defined.
-var numberOne int 
+var numberOne int
 
 // Defined variable by initializing it to a value. The type is inferred.
 var numberTwo 0
 ```
 
 2. `Go` is a strongly typed language
+
    - This means that variables cannot be assigned values that are not their type, i.e. an integer cannot be assigned a string. This also means that when attempting to perform operations on variables, certain variables cannot interact. This is in direct contrast to a language like `JavaScript` where you can add a string to a float and it will continue along as if nothing has happened. This allows the compiler to do checks and error detection before compiling your code, as well as allows your editor to have better autocomplete because it is clear what variables are.
 
 3. `Go` is Compiled
+
    - This means that your program will be compiled down to a standalone binary. This allows a program to be run in multiple enviornments. This is in contrast to Python which interprets the code at run time. This also means that programs will run much faster as there is no interpreter interpretting the code as it runs, rather the code is already ready to be run by the machine.
 
 4. `Go` has built in Concurrency
+
    - There are built in packages that support concurrency. This is because `Go` was built with this features specifically in mind.
 
 5. `Go` was built with simplicity in mind
@@ -39,9 +42,9 @@ To test if the install was successfull go to a terminal and run `go version`.
 
 `Go` works within a paradigm of packages and modules.
 
-A *Package* is a folder containing various `.go` files.
+A _Package_ is a folder containing various `.go` files.
 
-A *Module* is a collection of packages.
+A _Module_ is a collection of packages.
 
 When starting a `Go` project, you are just creating a module.
 
@@ -65,13 +68,13 @@ func main() {
 
 If the package name is not called main, this is not a requirement for your package to have.
 
-To import a package you can use the `import` keyword followed by the package name in quotes. 
+To import a package you can use the `import` keyword followed by the package name in quotes.
 
 ```go
 import "fmt"
 ```
 
-This will now cause issue because `Go` *does not let you import a module without using it*. To complete our program we can now use the print function in `Go` to print out **Hello World** to the console.
+This will now cause issue because `Go` _does not let you import a module without using it_. To complete our program we can now use the print function in `Go` to print out **Hello World** to the console.
 
 ```go
 fmt.Println("Hello, World!")
@@ -105,20 +108,20 @@ var integer int
 
 `int` will default to a specific value based on your system. There are ways to specify the the size and type of int which can be seen in this table:
 
-| Keyword | Bits | Min Value | Max Value |
-| ----- | ----- | ----- | ----- |
-| `int` | 32 or 64 | -2^31 or -2^63 | 2^31-1 or 2^63-1 |
-| `int8` | 8 | -128 | 127 |
-| `int16` | 16 | -32,768 | 32,767 |
-| `int32` | 32 | -2,147,483,648 | 2,147,483,647 |
-| `int64` | 64 | -9,223,372,036,854,775,808 | 9,223,372,036,854,775,807 |
-| `uint` | 32 or64 | 0 | 2^32-1 or 2^64-1 |
-| `uint8` | 8 | 0 | 255 |
-| `uint16` | 16 | 0 | 65,535 |
-| `uint32` | 32 | 0 | 4,294,967,295 |
-| `uint64` | 64 | 0 | 18,446,744,073,709,551,615 |
+| Keyword  | Bits     | Min Value                  | Max Value                  |
+| -------- | -------- | -------------------------- | -------------------------- |
+| `int`    | 32 or 64 | -2^31 or -2^63             | 2^31-1 or 2^63-1           |
+| `int8`   | 8        | -128                       | 127                        |
+| `int16`  | 16       | -32,768                    | 32,767                     |
+| `int32`  | 32       | -2,147,483,648             | 2,147,483,647              |
+| `int64`  | 64       | -9,223,372,036,854,775,808 | 9,223,372,036,854,775,807  |
+| `uint`   | 32 or64  | 0                          | 2^32-1 or 2^64-1           |
+| `uint8`  | 8        | 0                          | 255                        |
+| `uint16` | 16       | 0                          | 65,535                     |
+| `uint32` | 32       | 0                          | 4,294,967,295              |
+| `uint64` | 64       | 0                          | 18,446,744,073,709,551,615 |
 
-It should be noted as well, `int` initialize to *0* by default which in contrast to `JavaScript`'s `undefined` or `C++` having a garbled mess of whatever was there before you initialized the value.
+It should be noted as well, `int` initialize to _0_ by default which in contrast to `JavaScript`'s `undefined` or `C++` having a garbled mess of whatever was there before you initialized the value.
 
 The max and mins are also something to look out for. If you try to initialize a value over its max size, the compiller will throw an error. If you update a value however, the compiller is no longer involved, and there will be no error. This can lead to unexpected behavior.
 
@@ -136,10 +139,10 @@ Integer division results in an integer, which rounds any integer down. If you wa
 
 `Go` has two types of floats. You must specify the float type when declaring a float.
 
-| Keyword | Bits | Min Value | Max Value |
-| ----- | ----- | ----- | ----- |
-| `float32` | 32 | approx -3.402823e+38 | approx 3.402823e+38 |
-| `float64` | 64 | approx -1.797693e+308 | approx 1.797693e+308 |
+| Keyword   | Bits | Min Value             | Max Value            |
+| --------- | ---- | --------------------- | -------------------- |
+| `float32` | 32   | approx -3.402823e+38  | approx 3.402823e+38  |
+| `float64` | 64   | approx -1.797693e+308 | approx 1.797693e+308 |
 
 ```go
 var decimalOne float // Throws error because the type of float is undefined
@@ -147,7 +150,7 @@ var decimalOne float // Throws error because the type of float is undefined
 var decimalTwo float32 = 3.14159
 ```
 
-Once again, be on the lookout for the same issues with floats as integers, and remember that the default intialization is *0*.
+Once again, be on the lookout for the same issues with floats as integers, and remember that the default intialization is _0_.
 
 ### Type Casting
 
@@ -258,6 +261,7 @@ name = "Richard" // Cannot assign to a const
 ## Functions and Control Structures
 
 ### Functions
+
 As shown earlier, the function sytnax in `Go` is:
 
 ```go
@@ -271,7 +275,7 @@ It should be noted that `Go` enforces the K&R brace style for functions. This me
 ```go
 func functionName()
 {  // This throws an error
-   
+
 }
 ```
 
@@ -326,48 +330,48 @@ if condition1 {
 
 #### Operators in Go
 
-With conditionals and talk of arithmetic, I feel that it is pertinent to list the standard operators in `Go`. The set of operators is pretty standard as far as programming languages *go*.
+With conditionals and talk of arithmetic, I feel that it is pertinent to list the standard operators in `Go`. The set of operators is pretty standard as far as programming languages _go_.
 
-| Operator | Description |
-| :------- | :---------- |
-| `+`      | Addition |
-| `-`      | Subtraction |
-| `*`      | Multiplication |
-| `/`      | Division |
-| `%`      | Modulus (remainder) |
-| `&`      | Bitwise AND |
-| `\|`      | Bitwise OR |
-| `^`      | Bitwise XOR |
-| `&^`     | Bitwise clear (AND NOT) |
-| `<<`     | Left shift |
-| `>>`     | Right shift |
-| `==`     | Equal to |
-| `!=`     | Not equal to |
-| `<`      | Less than |
-| `<=`     | Less than or equal to |
-| `>`      | Greater than |
-| `>=`     | Greater than or equal to |
-| `&&`     | Logical AND |
-| `\|\|`     | Logical OR |
-| `!`      | Logical NOT |
-| `+=`     | Add and assign |
-| `-=`     | Subtract and assign |
-| `*=`     | Multiply and assign |
-| `/=`     | Divide and assign |
-| `%=`     | Modulo and assign |
-| `&=`     | Bitwise AND and assign |
-| `\|=`     | Bitwise OR and assign |
-| `^=`     | Bitwise XOR and assign |
-| `&^=`    | Bitwise clear and assign |
-| `<<=`    | Left shift and assign |
-| `>>=`    | Right shift and assign |
-| `++`     | Increment (postfix only) |
-| `--`     | Decrement (postfix only) |
-| `=`      | Assignment |
-| `<-`     | Channel send/receive |
+| Operator | Description                                      |
+| :------- | :----------------------------------------------- |
+| `+`      | Addition                                         |
+| `-`      | Subtraction                                      |
+| `*`      | Multiplication                                   |
+| `/`      | Division                                         |
+| `%`      | Modulus (remainder)                              |
+| `&`      | Bitwise AND                                      |
+| `\|`     | Bitwise OR                                       |
+| `^`      | Bitwise XOR                                      |
+| `&^`     | Bitwise clear (AND NOT)                          |
+| `<<`     | Left shift                                       |
+| `>>`     | Right shift                                      |
+| `==`     | Equal to                                         |
+| `!=`     | Not equal to                                     |
+| `<`      | Less than                                        |
+| `<=`     | Less than or equal to                            |
+| `>`      | Greater than                                     |
+| `>=`     | Greater than or equal to                         |
+| `&&`     | Logical AND                                      |
+| `\|\|`   | Logical OR                                       |
+| `!`      | Logical NOT                                      |
+| `+=`     | Add and assign                                   |
+| `-=`     | Subtract and assign                              |
+| `*=`     | Multiply and assign                              |
+| `/=`     | Divide and assign                                |
+| `%=`     | Modulo and assign                                |
+| `&=`     | Bitwise AND and assign                           |
+| `\|=`    | Bitwise OR and assign                            |
+| `^=`     | Bitwise XOR and assign                           |
+| `&^=`    | Bitwise clear and assign                         |
+| `<<=`    | Left shift and assign                            |
+| `>>=`    | Right shift and assign                           |
+| `++`     | Increment (postfix only)                         |
+| `--`     | Decrement (postfix only)                         |
+| `=`      | Assignment                                       |
+| `<-`     | Channel send/receive                             |
 | `.`      | Selector (access struct fields, package members) |
-| `&`      | Address of |
-| `*`      | Dereference |
+| `&`      | Address of                                       |
+| `*`      | Dereference                                      |
 
 #### Shortcircuiting
 
@@ -382,7 +386,7 @@ func main() {
 	var numerator int = 10
 	var denominator int = 2
 	var result, remainder, err = intDivision(numerator, denominator)
-	
+
 	switch {
 		case err != nil:
 			fmt.Println("Error occurred:", err)
@@ -411,8 +415,160 @@ switch condition {
 
 ## Arrays, Slices, and Maps
 
+### Arrays
+
+Arrays in Go are similar to that of an array in `C` or `C++` in that they have a set size and a set data type associated with them. Arrays are zero indexed.
+
+```go
+var intArr [3]int32
+// Index
+fmt.Println(intArr[0])
+
+// Slice
+fmt.Println(intArr[1:3])
+```
+
+Arrays store their contents in continguous memory segments. This can be shown by printing the pointers to each item in the array. This can be done using the address operator `&` before the call to the array.
+
+```go
+var intArr [3]int32
+
+// Show addressess
+fmt.Println(&intArr[0])
+fmt.Println(&intArr[1])
+fmt.Println(&intArr[2])
+```
+
+It should be noted that this is similar behavior to a language such as `C` which stores an array as a pointer to a location in memory, and indexes through the array by incrememting the memory location by the index.
+
+You can also immediately initialize an array using the following syntax:
+
+```go
+var intArray [3]int32 = [3]int32{1, 2, 3}
+
+// And of course there is shorthand such as the following
+var intArray = [3]int32{1, 2, 3}
+intArray := [3]int32{1, 2, 3}
+intArray := [...]int32{1, 2, 3} // The ... makes the compiler infer the size of the array.
+
+```
+
+The `...` is called the variadic parameter operator, and in `Go` is used to denote that a function or template can accept a varialbe number of arguments.
+
+### Slices
+
+Slices are a wrapper for arrays. In other words, a slice is a superset of the features of an array. The way that slice is defined is similar to an array, though it is not the same. Instead of adding a parameter for the size of the array, you leave the value empty. This creates a slice instead of an array. This opens up a variety of new methods, such as the append feature.
+
+```go
+var intSlice []int32 = []int32{4 5 6}
+fmt.Printf("The length is %v with capacity of %v", len(intSlice), cap(intSlice))
+// Cap is a built in function allowing you to see what the capacity of a slice is.
+
+intSlice = append(intSlice, 7)
+fmt.Printf("The length is %v with capacity of %v", len(intSlice), cap(intSlice))
+```
+
+The underlying workings of a slice are as follows:
+
+1. A new array with the exact length is allocated in memory.
+2. When running the append, the method checks if there is enough room for a new value.
+3. If there is not enough room, a new array with increased capacity will be allocated (this could be larger than needed, such as doulbing capacity to add a single value).
+4. The appended value is copied in, followed by copying in the values from the previous array.
+
+In other words, a new array in a new location in memory is returned after these operations. You _should not assume that the location remains the same while using a slice._
+
+Interestingly you cannot index into the unassigned slots in the slice. So if there are six values in a slice with a capacity of ten, you will get an `index out of range` error.
+
+You can also add multiple values to the slice at once depicted below.
+
+```go
+throwAway := []int32{8,9}
+intSlice = append(intSlice, throwAway...) // Used after a value, this will spread out the values contained in the array/slice.
+```
+
+You can also use the `make` syntax to create a slice. This can be good if you know that there is a maximum size that your slice will take up and you want to avoid reallocating for resizing.
+
+```go
+var intSlices3 []int32 = make(int32[], 3, 8)
+```
+
+### Maps
+
+As with other languages, this is a table of `key:value` pairs. Here is the syntax for defining one. You can initialize with or without values. Referencing values is fairly standard.
+
+```go
+var myMap map[string]uint8 = make(map[string]uint8)
+// Or
+var myMap = map[string]unint8 = {"Adam": 23, "Sarah":45}
+
+fmt.Println(myMap["Adam"])
+```
+
+When trying to access a value that does not exist (i.e. the key leads to nothing) the map will return the default value of the datatype for the value. For `unint8` that would be 0. Maps also return a second, _ok_ value, which is a boolean. This is true if the key was found, and false otherwise.
+
+```go
+var myMap = map[string]unint8 = {"Adam": 23, "Sarah":45}
+age, ok = myMap["Adam"] // returns 23, true
+age, ok = myMap["James"] // returns 0, false
+```
+
+Deleting a value is as follows:
+
+```go
+delete(map, key);
+```
+
+Maps do not preserve order in `Go` so iterating over them will result in different orderings each time.
+
+#### Iterating
+
+You can iterate over maps, arrays, and slices using a `range`. This will return an iterator allowing you to iterate through each value (similar to python).
+
+```go
+for name:= range myMap {
+	fmt.Printf("Name: %s, Age: %d\n", name, myMap[name])
+}
+```
+
+For an array you can do the following.
+
+```go
+for index, value := range intSlice {
+	fmt.Printf("Index: %d, Value: %d\n", index, value)
+}
+```
+
+Interestingly, there is no dedicated `while` loop in `Go`, rather, the effect of a while loop can be achieved with the for syntax as well.
+
+```go
+// Stnadard for loop
+for i:=0; i<10; i++ {
+   fmt.Println(i)
+}
+
+// Standard while loop
+i := 0
+for i < 10 {
+   i++
+   fmt.Println(i)
+}
+
+// No condition needed
+i = 0
+for {
+   if i >= 10 break
+   fmt.Println(i)
+}
+```
+
+## Strings, Runes, and Bytes
+
 ## Sources
 
 [Development Docs](https://go.dev/doc/)
 [Learn GO Fast: Full Tutorial](https://www.youtube.com/watch?v=8uiZC0l4Ajw&t=490s)
 [Go (Golang) programming language in 3 minutes](https://www.youtube.com/watch?v=8U8erH5qOZ8)
+
+```
+
+```
