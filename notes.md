@@ -563,6 +563,74 @@ for {
 
 ## Strings, Runes, and Bytes
 
+`Strings` can be indexed just like arrays. This is done using the `string[index]` syntax. It should be noted, that this will return numerical values. This is because the characters are encoded in `UTF-8`. The computer will read out the values as the numeric representation of the binary values rather than the encoded value.
+
+```go
+var myString = "résumé"
+var indexed = mystring[0]
+fmt.Println(indexed)
+```
+
+`Strings` allocate a byte array for each character. This means that it allocates the necessary memory to hold each character in the `string`. This is useful to know for a number of reasons. For instance, in the word _résumé_, there are two characters that are represented using 2 bytes, rather than one. _KEEP THIS IN MIND._ Because certain characters have different sizes you can get a number of differing results from your `string` without understanding why.
+
+```go
+var myString = "résumé"
+var indexedFirst = myString[1]
+fmt.Println(indexed) // Outputs 195, becasue the first 8 bits are stored at index 1 of the string. In ASCII this is Ã which is not in the string.
+
+var indexedSecond = myString[2]
+fmt.Println(indexed) // Outputs 169, the second 8 bits of the character at index 1. This correlates to the ASCII © symbol which is also not in the string.
+
+for i, v := range myString {
+   fmt.Println(i, v)
+}
+// Returns the following list
+// 0 114
+// 1 223
+// 3 115
+// 4 117
+// 5 109
+// 6 233
+```
+
+It should now be apparent that there are some oddities working with `strings`. For instance, we can see that indexing straight to a position does not always give us the correct value. We also can see that using the range on myString does some work in decoding the proper positions of the values. This can be see by noticing that there is never an index of 2 printed out. That is because it is part of the character for position 1. We also know that iterating through the `string` we are not seeing the full size of the array. For instance, we know that there are 8 slots in the array, but only 7 are shown because the final slot, once again, is part of the character in slot 6. This is also why taking the `len(string)` returns the number of bytes and not the number of charcters, because a `string` is actually an array of bytes representing the `string`. It should also be noted that the type of each value at each point on the array, because it is a byte, is an `int8`.
+
+To get around this odd behavior it is possible to instead cast a `string` to an array of `runes` (`runes` are the `chars` of `Go`). This changes the underlying representation from an array of bytes representing the string to an array of unicode characters representing the string. In other words, what was output from the iteration in the previous code block is how the string would be represesnted
+
+```go
+var mystring = []rune("résumé")
+var indexed  = myString[2]
+fmt.Println(indexed) // Output 115, the Unicode representation of 's'
+```
+
+It should be noted that `rune` is an alias for `int32`.
+
+Earlier it was noted that you can concatenate `strings` in `Go` using the `+` operator. This does work but there is a caviate to this. `Strings` are immutable and as such, each string that is concatenated together is actually a new string altogether, which is not efficient.
+
+There is also a strings library in `Go` to help you create and work with strings more efficiently. For instance:
+
+```go
+// Lame normal concatenation
+var bString = ""
+var stringSlice = []string{"H", "e", "l", "l", "o" }
+for i := range strSlice {
+   bString += strSlice[i] // Creates a new string each iteration.
+}
+
+import "strings"
+
+// Chad efficient string building
+var strBuilder strings.Builder
+for i := range strSlice {
+   strBuilder.WriteString(strSlice[i])
+}
+var aString = strBuilder.String()
+```
+
+The string library allocaties an array internally and appends values until the string method is called.
+
+## Structs and Interfaces
+
 ## Sources
 
 [Development Docs](https://go.dev/doc/)
