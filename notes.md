@@ -314,6 +314,10 @@ func intDivision(a int, b int) (int, int, error) {
 }
 ```
 
+#### Function not defined?
+
+Because `Go` is compiled, no matter where it is placed, so long as the function is declared in the same package, `Go` will know about the function. In other words, so long as at some point the function is delcared in the same scope, the function will be defined and you will not encounter an error where the function has not yet been defined. This is because when `Go` compiles the language it has already processed the entire file.
+
 ### If statements
 
 Finally if, else if, and else statements all follow the standard syntax accordingly. The else and else if statements **must** be on the smae line as the final bracket of the if statement precessing them.
@@ -631,6 +635,10 @@ The string library allocates an array internally and appends values until the st
 
 ## Structs and Interfaces
 
+### Structs
+
+#### Defining a Struct
+
 Like in many other languages, `Go` allows the programmer to define their own types. These types can then be used, referenced and manipulated, like in many other languages.
 
 ```go
@@ -682,6 +690,8 @@ fmt.Println(chevyCruze.mpg, chevyCruze.gallons, chevyCruze.manufacturer.name) //
 // }
 ```
 
+#### Embedding: A GoLang Composition Alternative
+
 On top of traditional composition, there is also *embedding*. This allows for easier composition of structs. In the tradional composition form as shown above, one would get the name of the manufacturer by accessing `gasEngine.manufacturer.name`. Embedding instead allows the attributes of a lower order struct to be promoted to part of the higher order struct. This allows us to access the attributes as if they are declared directly in the higher order struct.
 
 
@@ -708,7 +718,299 @@ fmt.Println(chevyCruze.mpg, chevyCruze.gallons, chevyCruze.name) // Name is now 
 // }
 ```
 
-We can also create anonymouse structs. This requires us to initialize and 
+#### Anonymouse Structs
+
+We can also create anonymouse structs. This requires us to define, declare, and initialize the struct all at once. This is similar to anonymous functions.
+
+```go
+var anonEngine = struct {
+   mpg uint8
+   gallons uint8
+}{25, 15}
+```
+
+#### Methods
+
+Structs can also have methods. These methods have access to the values of the instance of the struct.
+
+```go
+// Define the struct
+type gasEngine struct {
+   mpg uint8
+   gallons uint8
+}
+
+// Define a function => tie the method to the struct and give the instance a name => method name => return type
+func (engine gasEngine) milesLeft() uint8 {
+   return engine.gallons * engine.mpg
+}
+
+var engine = gasEngine{10, 20}
+fmt.Println(engine.milesLeft()) // Returns 200
+```
+
+### Interfaces
+
+```go
+// Gas Engine Definition
+type gasEngine struct {
+   mpg uint8
+   gallons uint8
+}
+
+func (engine gasEngine) milesLeft() uint8 {
+   return engine.gallons * engine.mpg
+}
+
+// Electric "Engine" definition
+type electricEngine struct {
+   mpkwh uint8
+   kwh uint8
+}
+
+func (motor electricEngine) milesLeft() uint8 {
+   return motor.mpkwh * motor.kwh
+}
+
+func canMakeIt(e gasEngine, miles uint8) {
+   if miles <= e.milesLeft() {
+      fmt.Println("You can make it there!")
+   } else {
+      fmt.Println("Need to fuel up first")
+   }
+}
+```
+
+In the above example, we have two types of 'engines' that power cars. We have a traditional gas powered vehicle and an EV. There is also a funciton called `canMakeIt()` which takes in the engine and the distance and returnes wether or not the car can make it to it's destionation. The issue is that it only takes in `gasEngines`. This is a problem as now we have no way of telling if an EV will make it. We could define a second function `canElectricVehicleMakeIt()`, but aside from being a mouthful, there is a way to make our funciton more flexible. This is where interfaces come into play.
+
+In this very simple case we can define an interface that allows any type with a `milesLeft()` method into the funciton. This allows for the function to take in an EV or gas vehicle, so long as both types have the proper method defined.
+
+```go
+type engine interface {
+   milesLeft() uint8 // Method name and return type = method signature
+}
+
+func canMakeIt(e engine, miles uint8) { // Go now checks to see if the value passed in for e has the method.
+   if miles <= e.milesLeft() {
+      fmt.Println("You can make it there!")
+   } else {
+      fmt.Println("Need to fuel up first")
+   }
+}
+```
+
+## Pointers
+
+Welcome to the endless suffering of pointers. In `Go`, pointers are a type. They are values that store memory addresses rather than values. The syntax of pointers in `Go` is very similar to C languages.
+
+A pointer initializes to `nil` by default in `Go`, and will either be 32 or 64 bytes long depending on the operating system. A key point to remember about a pointer is that it is stored the same way that any variable is stored in memory. This means that if at location `0x1b00` there is an `int32` with a value of `42`, then in address `0x1b01` there can be a `pointer` with a values of `0x1b00`, pointing to the int32. In other words, a pointer is a variable with a memory address as the value.
+
+```go
+var p *int32 // Creates a pointer to a 32 bit integer, but initializes to nil, lets pretend it is at 0x1b00. It currently points to nowhere. It will take up the locations from 0x1b00 to 0x1b07 because we are on a 64 bit OS.
+```
+
+We can also initialize the pointer to some value such as in the following example
+
+```go
+var p *int32 = new(int32) // Same pointer as before, but it initializes with value of 0x1b0c, pointing to a new 32 bit integer. The 32 bit integer will take up addresses 0x1b0c to 0x1b0f.
+
+var i int32 // Creates a 32 bit integer with value 0, the address will be 0x1b08 and will span to 0x1b0b because it will take up 4 bytes.
+```
+
+To get the value of the pointer, we can dereference the pointer using the dereference operator `*` again.
+
+```go
+fmt.Printf("The value p points to is : %v", *p)
+```
+
+To change the value of the int at the pointers locaiton, we dereference the pointer, and then assing the value.
+
+```go
+*p = 42 // Set the value at 0x1b0c to 42
+```
+
+A common bug is having a nil pointer error. This means that you did not set the value of the pointer before attempting to set the value at the address.
+
+```go
+var p *int32
+*p = 42 // Nil pointer error because p is pointing to nowhere
+```
+
+You can assign the value of a pointer using the reference operator `&`. As with earlier where we declared our pointer, and a value `i` at location `0x1b08`. We can now reference the address of `i` using this operator.
+
+```go
+var p *int32 = new(int32) // Points to a new integer
+
+var i int32 // Points to a different new integer
+
+p = &i // Now points to i instead of the new integer.
+
+*p = 42 // Changes the value of i
+```
+
+This is where pointers diverge from regular variables. For instance, if there are two varialbes of `x` and `y`. If we write `x = y` the value from `y` is copied from `y` and then placed in the value at the location of `x`. This is how *most* things work in `Go`. For instance, functions in go are pass by value. This means that if you define a function and pass in a variable, the variable is not altered because the value is passed in, not the reference. If you instead wanted to alter the original variable you could pass in a reference to the variable so that the function would edit the original variable (though there are debates to be had about whether or not you should be doing that). Some other types in `Go` also funciton by reference rather than value. For instance, if you have a two slices `slice1` and `slice2`, and you set `slice1 = slice2`. Then when you edit `slice1` you are modifying `slice2` and vice versa. This is because a slice works by using pointers to an array under the hood, and so instead of creating a copy of the slice, you are actually just setting both `slice1` and `slice2` to point at the same array.
+
+To summarize, the point of that paragraph, if there are unexpected errors occuring where data is changing that shouldn't be, it would be pertinent to consult either the documenation, the internet, or the sweaty guy in your neighbors basement about whether or not the data you are using is being passed around by reference or by value.
+
+### Pointers in Functions
+
+So with all that said, why would you potentially want to pass by reference instead of by value? There are a number of very valid reasons to do this, but first a discussion of reasons why it would be frowned upon. Passing many values around by reference can cause unpredictable behavior. A good way to think about it is that if everyone had a remote to one TV, and they all had different preferences, how long would the channel remain the same before changing. What are the odds that you could watch one episode of your favorite show all the way through without interuptions? Its the same for passing by reference. Allowing multiple things to access the same address can cause the value at that location to become difficult to predict, and if that value is imperative to the operation of multiple parts of your program it can cause cascading issues all the way down. In other words, explicitly defining, setting, and changing a variable generally produces cleaner, easier to maintain code. In regards to maintainability, pointers also can be a difficult concept to grasp, understand, and visualize, even with lots of experience. Pointers add a layer of abstraction to a value, where instead of `variable = value` there is now `variable = value that points to another place and that other place contains a value and the place that I am pointing to could change and then it would be both a different value and locaiton`. It can be a pain to debug code that points to other places.
+
+So with that said, why would you want to use pointers? They are more efficient in some cases. Take for instance the following example.
+
+```go
+var arr = [5]int64{2, 4, 6, 8, 10}
+var result [5]int64 = square(arr)
+
+func square(arr [5]int64) [5]int64 {
+   for i := range arr {
+      arr[i] = arr[i] * arr[i]
+   }
+   return arr
+}
+
+fmt.Println(arr) // [2, 4, 6, 8, 10]
+fmt.Println(result) // [4, 16, 36, 64, 100]
+```
+
+Because arrays are passed in by value, the function is recieving a copy of the array. This means that to run this function, first the array must be copied over to a new location, then that new array is operated on, and then the values are passed back and copied into result. This means that there is time spent copying the array as well as we have doubled our memory usage. What if we just need the squared values and nothing more?
+
+```go
+var arr = [5]int64{2, 4, 6, 8, 10}
+var result [5]int64 = square(&arr)
+
+func square(arr *[5]int64) [5]int64 {
+   for i := range arr {
+      arr[i] = arr[i] * arr[i]
+   }
+   return *arr
+}
+
+fmt.Println(arr) // [4, 16, 36, 64, 100]
+fmt.Println(result) // [4, 16, 36, 64, 100]
+```
+
+In the modified version of the code we have passed in the address of the array, and we dereference the pointer in the function. This modifies the orignial array. When we pass it back, it is passed back, it is passing back the original array. `Result` and `arr` end up pointing to the same location in memory. This helps to avoid creating copies of large pieces of data.
+
+## Goroutines
+
+A Goroutine is a way to implement *Concurrency* in `Go`. This is *NOT* necessarily parallelism. A recap of the difference is that concurrency is desining your program to handle multiple tasks at once. This may mean flipping back and forth between the tasks, or working on another task while one tasks is waiting on something like an API call. This is in contrast to parallelism which uses multiple CPU cores to to multiple tasks at the same time. In other words, say there are two tasks each taking 10 cycles of a CPU core. With just concurrency and no parallelism, it will still take 20 cycles of the core to complete both tasks, they will just be done simultaneously. In parallelism, it will take 10 cycles because two cores will cycles through the tasks at the same time. *Goroutines can be parallel though*, so long as the system allows it. Go has an underlying schedule that will map `m` goroutines to `n` OS threads. 
+
+In this example, there is a mock database. We will attempt to call the database once for each ID. This will take a substantial amount of time to consecutively call this database.
+
+```go
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+var dbData = []string{
+	"id1", "id2", "id3", "id4", "id5",
+	"id6", "id7", "id8", "id9", "id10",
+	"id11", "id12", "id13", "id14", "id15",
+	"id16", "id17", "id18", "id19", "id20",
+}
+
+func main() {
+	t0 := time.Now()
+	for i:=0; i<len(dbData); i++ {
+		dbCall(i)
+	}
+	fmt.Printf("\nTotal Execution Time: %v\n", time.Since(t0))
+}
+
+func dbCall(i int) {
+	var delay float32 = rand.Float32()*2000
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	fmt.Printf("\nThe result is: %v\n", dbData[i])
+}
+```
+
+This will take approximately 20 seconds to run as the calls are being made consecutively. We can instead use the built in Goroutines to call these concurrently. This is done with the `go` keyword. This on its own is generally not enough though. This is because adding it in front of the call to the `dbCall()` function will spawn 20 goroutines, and then the for block will exit and the main will exit before the calls can complete. To fix this we can use wait groups from the `sync` package. A wait group is effectively just a counter that we can increment with `Add()` method, and it will decrement when we call the `Done` method. After the loop we call the `Wait` method which waits for the counter to count back down to zero before continuing. This is an example of how `Go` has very good tools for concurrency built in.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+	"sync"
+)
+
+var wg sync.WaitGroup
+var dbData = []string{
+	"id1", "id2", "id3", "id4", "id5",
+	"id6", "id7", "id8", "id9", "id10",
+	"id11", "id12", "id13", "id14", "id15",
+	"id16", "id17", "id18", "id19", "id20",
+}
+
+func main() {
+	t0 := time.Now()
+	for i:=0; i<len(dbData); i++ {
+		wg.Add(1)
+		go dbCall(i)
+	}
+	wg.Wait()
+	fmt.Printf("\nTotal Execution Time: %v\n", time.Since(t0))
+}
+
+func dbCall(i int) {
+	var delay float32 = rand.Float32()*2000
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	fmt.Printf("\nThe result is: %v\n", dbData[i])
+	wg.Done()
+}
+```
+
+Now, what about storing data and avoiding race conditions? The sync package comes with the mutual exclusion, or the `Mutex`. This has the `Lock` and `Unlock` methods
+
+```go
+var m = sync.Mutex{}
+
+func dbCall(i int) {
+	var delay float32 = 2000 
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	fmt.Printf("\nThe result is: %v\n", dbData[i])
+	m.Lock()
+	results = append(results, dbData[i])
+	m.Unlock()
+	wg.Done()
+}
+```
+
+There are even more options within the sync package to really specify how your program allows reading and writing to data. For instance there is the `RWMutex` which also provides the ability to lock and unlock reading separately from writing.
+
+```go
+var m = sync.RWMutex{}
+
+func dbCall(i int)
+
+func dbCall(i int) {
+	var delay float32 = 2000
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	fmt.Printf("\nThe result is: %v\n", dbData[i])
+	save(dbData[i])
+	log()
+	wg.Done()
+}
+
+func save(result string) {
+	m.Lock()
+	results = append(results, result)
+	m.Unlock()
+}
+ 
+ func log() {
+	m.RLock()
+	fmt.Printf("\nThe current results are: %v", results)
+	m.RUnlock()
+}
+```
+
+`RLock` will check if there is any full lock in place. If there isn't, it will aquire a read lock. Many goroutines can have read locks at once. A full lock cannot be put in place until all read locks are clears. Once all read locks are cleared, a full lock can be put in place and no other locks can be aquired until that lock is cleared. In other words, only one goroutine can write to the slice at a time, and nothing can read from the slice until the write is done, however many routines can read from the slice all at once.
 
 ## Sources
 
