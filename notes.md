@@ -19,11 +19,11 @@ var numberTwo 0
 
 2. `Go` is a strongly typed language
 
-   - This means that variables cannot be assigned values that are not their type, i.e. an integer cannot be assigned a string. This also means that when attempting to perform operations on variables, certain variables cannot interact. This is in direct contrast to a language like `JavaScript` where you can add a string to a float and it will continue along as if nothing has happened. This allows the compiler to do checks and error detection before compiling your code, as well as allows your editor to have better autocomplete because it is clear what variables are.
+   - This means that variables cannot be assigned values that are not their type, i.e. an integer cannot be assigned a string. This also means that when attempting to perform operations on variables, certain variables cannot interact. This is in direct contrast to a language like `JavaScript` where we can add a string to a float and it will continue along as if nothing has happened. This allows the compiler to do checks and error detection before compiling our code, as well as allows our editor to have better autocomplete because it is clear what variables are.
 
 3. `Go` is Compiled
 
-   - This means that your program will be compiled down to a standalone binary. This allows a program to be run in multiple enviornments. This is in contrast to Python which interprets the code at run time. This also means that programs will run much faster as there is no interpreter interpretting the code as it runs, rather the code is already ready to be run by the machine.
+   - This means that our program will be compiled down to a standalone binary. This allows a program to be run in multiple enviornments. This is in contrast to Python which interprets the code at run time. This also means that programs will run much faster as there is no interpreter interpretting the code as it runs, rather the code is already ready to be run by the machine.
 
 4. `Go` has built in Concurrency
 
@@ -46,7 +46,7 @@ A _Package_ is a folder containing various `.go` files.
 
 A _Module_ is a collection of packages.
 
-When starting a `Go` project, you are just creating a module.
+When starting a `Go` project, we are just creating a module.
 
 To get started run: `go mod init {MODULE NAME}`. This initializes the module by creating a `go.mod` file which will contain the version of `Go` and the module name.
 
@@ -66,15 +66,15 @@ func main() {
 }
 ```
 
-If the package name is not called main, this is not a requirement for your package to have.
+If the package name is not called main, this is not a requirement for the package to have.
 
-To import a package you can use the `import` keyword followed by the package name in quotes.
+To import a package we can use the `import` keyword followed by the package name in quotes.
 
 ```go
 import "fmt"
 ```
 
-This will now cause issue because `Go` _does not let you import a module without using it_. To complete our program we can now use the print function in `Go` to print out **Hello World** to the console.
+This will now cause issue because `Go` _does not let us import a module without using it_. To complete our program we can now use the print function in `Go` to print out **Hello World** to the console.
 
 ```go
 fmt.Println("Hello, World!")
@@ -82,13 +82,13 @@ fmt.Println("Hello, World!")
 
 ### Building and running our file
 
-To build and run this file you use the following:
+To build and run this file we use the following:
 
 ```bash
 go build {FILE PATH}
 ```
 
-This produces a file titled `main` which is the binary for the program. You can run it in the console to see what it does. Alternatively you can use:
+This produces a file titled `main` which is the binary for the program. We can run it in the console to see what it does. Alternatively we can use:
 
 ```bash
 go run {FILE PATH}
@@ -106,7 +106,7 @@ var integer int
 
 ### Integers
 
-`int` will default to a specific value based on your system. There are ways to specify the the size and type of int which can be seen in this table:
+`int` will default to a specific value based on the system. There are ways to specify the the size and type of int which can be seen in this table:
 
 | Keyword  | Bits     | Min Value                  | Max Value                  |
 | -------- | -------- | -------------------------- | -------------------------- |
@@ -121,9 +121,9 @@ var integer int
 | `uint32` | 32       | 0                          | 4,294,967,295              |
 | `uint64` | 64       | 0                          | 18,446,744,073,709,551,615 |
 
-It should be noted as well, `int` initialize to _0_ by default which in contrast to `JavaScript`'s `undefined` or `C++` having a garbled mess of whatever was there before you initialized the value.
+It should be noted as well, `int` initialize to _0_ by default which in contrast to `JavaScript`'s `undefined` or `C++` having a garbled mess of whatever was there before we initialized the value.
 
-The max and mins are also something to look out for. If you try to initialize a value over its max size, the compiller will throw an error. If you update a value however, the compiller is no longer involved, and there will be no error. This can lead to unexpected behavior.
+The max and mins are also something to look out for. If we try to initialize a value over its max size, the compiller will throw an error. If we update a value however, the compiller is no longer involved, and there will be no error. This can lead to unexpected behavior.
 
 ```go
 var numberOne int8 = 127 // No error
@@ -133,11 +133,11 @@ var numberTwo int8 = 128 // Overflow error
 numberOne = numberOne + 1 // No error
 ```
 
-Integer division results in an integer, which rounds any integer down. If you want the remainder you can get it using the modulo operator `%`.
+Integer division results in an integer, which rounds any integer down. If we want the remainder, we can get it using the modulo operator `%`.
 
 ### Floats
 
-`Go` has two types of floats. You must specify the float type when declaring a float.
+`Go` has two types of floats. We *must* specify the float type when declaring a float.
 
 | Keyword   | Bits | Min Value             | Max Value            |
 | --------- | ---- | --------------------- | -------------------- |
@@ -154,7 +154,7 @@ Once again, be on the lookout for the same issues with floats as integers, and r
 
 ### Type Casting
 
-Now that we have two types of numbers, we can address type casting. You cannot directly add an `int` and a `float` together because they are different types. Because of this you need to type cast from an int to a float or vice versa to avoid and error.
+Now that we have two types of numbers, we can address type casting. We cannot directly add an `int` and a `float` together because they are different types. Because of this we need to type cast from an int to a float or vice versa to avoid and error.
 
 ```go
 var integer int32 = 2
@@ -168,7 +168,7 @@ var result int32 = int32(success) - 1 // -1 that's 3, quick maths.
 
 ### String
 
-The `string` keyword is used for strings. Depending on what you use to define the string, the code will allow different behaviors. For instance, the use of `" "` means that the string is single line terminating.
+The `string` keyword is used for strings. Depending on what we use to define the string, the code will allow different behaviors. For instance, the use of `" "` means that the string is single line terminating.
 
 ```go
 var stringOne string = "Hello World!" // Valid
@@ -188,7 +188,7 @@ var stringTwo string = "World"
 var stringThree string = stringOne + " " + stringTwo
 ```
 
-To get the length of the string you can try using the built in `len()` function. It should however be noted that this is not always the number of charcters in the string. This is because `len()` returns the number of bytes used. Becuase `Go` encodes in `UTF-8`, characters outside of this encoding will use more bytes, thereby shifting the result of the `len()` funciton.
+To get the length of the string we can try using the built in `len()` function. It should however be noted that this is not always the number of charcters in the string. This is because `len()` returns the number of bytes used. Becuase `Go` encodes in `UTF-8`, characters outside of this encoding will use more bytes, thereby shifting the result of the `len()` funciton.
 
 ```go
 var stringOne string = "A"
@@ -198,7 +198,7 @@ fmt.Println(stringOne) // 1
 fmt.Println(stringTwo) // 2
 ```
 
-To get around this if you expect strings with characters outside of `UTF-8`, import the `"unicode/utf8"` and use the following:
+To get around this, if we expect strings with characters outside of `UTF-8`, import the `"unicode/utf8"` and use the following:
 
 ```go
 import "unicode/utf8"
@@ -248,7 +248,7 @@ var y string = bar() // This is clear
 
 ### Constants
 
-These are variables that don't vary. In other words, you can assign them, but once assigned, they don't change. You also have to assign a value to a const at declaration unlike variables where there is a default value.
+These are variables that don't vary. In other words, we can assign them, but once assigned, they don't change. We also have to assign a value to a const at declaration unlike variables where there is a default value.
 
 ```go
 const name string // Error
@@ -279,7 +279,7 @@ func functionName()
 }
 ```
 
-For passing parameters, the name of the parameter comes first, followed by the type declaration. This also means that you cannot pass other data types into the function. For instance, if you wanted to print an integer and you have a function that takes in a string, you will first have to cast the value to a string before passing it in.
+For passing parameters, the name of the parameter comes first, followed by the type declaration. This also means that we cannot pass other data types into the function. For instance, if we wanted to print an integer and we have a function that takes in a string, we will first have to cast the value to a string before passing it in.
 
 ```go
 func functionName(value string) {
@@ -287,7 +287,7 @@ func functionName(value string) {
 }
 ```
 
-These function types have had void return type so far, but how about function that return things? You must also declare what value the function will be returning so that `Go`'s compiler can check for errors. You can also add multipler return values as shown below.
+These function types have had void return type so far, but how about function that return things? We must also declare what value the function will be returning so that `Go`'s compiler can check for errors. We can also add multipler return values as shown below.
 
 ```go
 func intDivision(a int, b int) (int, int) {
@@ -297,7 +297,7 @@ func intDivision(a int, b int) (int, int) {
 }
 ```
 
-Now we can ask, what happens when we hit a division by zero error? `Go` throws a panic error and exits out of the program. This is not great as far as handling errors goes so what is standard practice is to add a return type `error` along with your function if your function can encounter errros. When an `error` is first defined it will default to a value of `nil`. This also introduces the syntax for if statements as a check will occur to see if the divisor is 0.
+Now we can ask, what happens when we hit a division by zero error? `Go` throws a panic error and exits out of the program. This is not great as far as handling errors goes so what is standard practice is to add a return type `error` along with our function if our function can encounter errros. When an `error` is first defined it will default to a value of `nil`. This also introduces the syntax for if statements as a check will occur to see if the divisor is 0.
 
 If statements are similar to most other languages. The one thing that is noteworthy with `Go` is that parentheses are not necessary for the conditional. This contrasts `JavaScript` where the conditional must be wrapped in parentheses.
 
@@ -441,7 +441,7 @@ fmt.Println(&intArr[2])
 
 It should be noted that this is similar behavior to a language such as `C` which stores an array as a pointer to a location in memory, and indexes through the array by incrememting the memory location by the index.
 
-You can also immediately initialize an array using the following syntax:
+We can also immediately initialize an array using the following syntax:
 
 ```go
 var intArray [3]int32 = [3]int32{1, 2, 3}
@@ -457,12 +457,12 @@ The `...` is called the variadic parameter operator, and in `Go` is used to deno
 
 ### Slices
 
-Slices are a wrapper for arrays. In other words, a slice is a superset of the features of an array. The way that slice is defined is similar to an array, though it is not the same. Instead of adding a parameter for the size of the array, you leave the value empty. This creates a slice instead of an array. This opens up a variety of new methods, such as the append feature.
+Slices are a wrapper for arrays. In other words, a slice is a superset of the features of an array. The way that slice is defined is similar to an array, though it is not the same. Instead of adding a parameter for the size of the array, we leave the value empty. This creates a slice instead of an array. This opens up a variety of new methods, such as the append feature.
 
 ```go
 var intSlice []int32 = []int32{4 5 6}
 fmt.Printf("The length is %v with capacity of %v", len(intSlice), cap(intSlice))
-// Cap is a built in function allowing you to see what the capacity of a slice is.
+// Cap is a built in function allowing us to see what the capacity of a slice is.
 
 intSlice = append(intSlice, 7)
 fmt.Printf("The length is %v with capacity of %v", len(intSlice), cap(intSlice))
@@ -475,18 +475,18 @@ The underlying workings of a slice are as follows:
 3. If there is not enough room, a new array with increased capacity will be allocated (this could be larger than needed, such as doulbing capacity to add a single value).
 4. The appended value is copied in, followed by copying in the values from the previous array.
 
-In other words, a new array in a new location in memory is returned after these operations. You _should not assume that the location remains the same while using a slice._
+In other words, a new array in a new location in memory is returned after these operations. We _should not assume that the location remains the same while using a slice._
 
-Interestingly you cannot index into the unassigned slots in the slice. So if there are six values in a slice with a capacity of ten, you will get an `index out of range` error.
+Interestingly we cannot index into the unassigned slots in the slice. So if there are six values in a slice with a capacity of ten, we will get an `index out of range` error.
 
-You can also add multiple values to the slice at once depicted below.
+We can also add multiple values to the slice at once depicted below.
 
 ```go
 throwAway := []int32{8,9}
 intSlice = append(intSlice, throwAway...) // Used after a value, this will spread out the values contained in the array/slice.
 ```
 
-You can also use the `make` syntax to create a slice. This can be good if you know that there is a maximum size that your slice will take up and you want to avoid reallocating for resizing.
+We can also use the `make` syntax to create a slice. This can be good if we know that there is a maximum size that our slice will take up and we want to avoid reallocating for resizing.
 
 ```go
 var intSlices3 []int32 = make(int32[], 3, 8)
@@ -494,7 +494,7 @@ var intSlices3 []int32 = make(int32[], 3, 8)
 
 ### Maps
 
-As with other languages, this is a table of `key:value` pairs. Here is the syntax for defining one. You can initialize with or without values. Referencing values is fairly standard.
+As with other languages, this is a table of `key:value` pairs. Here is the syntax for defining one. We can initialize with or without values. Referencing values is fairly standard.
 
 ```go
 var myMap map[string]uint8 = make(map[string]uint8)
@@ -522,7 +522,7 @@ Maps do not preserve order in `Go` so iterating over them will result in differe
 
 #### Iterating
 
-You can iterate over maps, arrays, and slices using a `range`. This will return an iterator allowing you to iterate through each value (similar to python).
+We can iterate over maps, arrays, and slices using a `range`. This will return an iterator allowing us to iterate through each value (similar to python).
 
 ```go
 for name:= range myMap {
@@ -530,7 +530,7 @@ for name:= range myMap {
 }
 ```
 
-For an array you can do the following.
+For an array we can do the following.
 
 ```go
 for index, value := range intSlice {
@@ -571,7 +571,7 @@ var indexed = mystring[0]
 fmt.Println(indexed)
 ```
 
-`Strings` allocate a byte array for each character. This means that it allocates the necessary memory to hold each character in the `string`. This is useful to know for a number of reasons. For instance, in the word _résumé_, there are two characters that are represented using 2 bytes, rather than one. _KEEP THIS IN MIND._ Because certain characters have different sizes you can get a number of differing results from your `string` without understanding why.
+`Strings` allocate a byte array for each character. This means that it allocates the necessary memory to hold each character in the `string`. This is useful to know for a number of reasons. For instance, in the word _résumé_, there are two characters that are represented using 2 bytes, rather than one. _KEEP THIS IN MIND._ Because certain characters have different sizes we can get a number of differing results from our `string` without understanding why.
 
 ```go
 var myString = "résumé"
@@ -605,9 +605,9 @@ fmt.Println(indexed) // Output 115, the Unicode representation of 's'
 
 It should be noted that `rune` is an alias for `int32`.
 
-Earlier it was noted that you can concatenate `strings` in `Go` using the `+` operator. This does work but there is a caviate to this. `Strings` are immutable and as such, each string that is concatenated together is actually a new string altogether, which is not efficient.
+Earlier it was noted that we can concatenate `strings` in `Go` using the `+` operator. This does work but there is a caviate to this. `Strings` are immutable and as such, each string that is concatenated together is actually a new string altogether, which is not efficient.
 
-There is also a strings library in `Go` to help you create and work with strings more efficiently. For instance:
+There is also a strings library in `Go` to help us create and work with strings more efficiently. For instance:
 
 ```go
 // Lame normal concatenation
@@ -627,9 +627,88 @@ for i := range strSlice {
 var aString = strBuilder.String()
 ```
 
-The string library allocaties an array internally and appends values until the string method is called.
+The string library allocates an array internally and appends values until the string method is called.
 
 ## Structs and Interfaces
+
+Like in many other languages, `Go` allows the programmer to define their own types. These types can then be used, referenced and manipulated, like in many other languages.
+
+```go
+type gasEngine struct {
+   mpg uint8
+   gallons uint8
+}
+
+var engine gasEngine
+fmt.Println(engine.mpg, engine.gallons) // Prints 0 0
+```
+
+There are also multiple ways to assign values to the attributes of a given struct.
+
+```go
+var engine1 gasEngine{mpg: 100, galons: 1} // Struct Literal Syntax
+fmt.Println(engine1.mpg, engine1.gallons) // Prints 100 1
+
+var engine2 gasEngine{20, 20} // Assigns attributes values in order
+fmt.Println(engine2.mpg, engine2.gallons) // Prints 20 20
+
+var engine3 gasEngine
+engine3.mpg = 1
+engine3.gallons = 100
+fmt.Println(engine3.mpg, engine3.gallons) // Prints 1 100
+```
+
+Because a struct is just another type, structs can have other structs as attribtues.
+
+```go
+type make struct {
+   name string
+}
+
+type gasEngine struct {
+   mpg uint8
+   gallons uint8
+   manufacturer make
+}
+
+var chevyCruze gasEngine = gasEngine{30, 16, make{"Chevrolet"}}
+fmt.Println(chevyCruze.mpg, chevyCruze.gallons, chevyCruze.manufacturer.name) // Prints 30 16 Chevrolet
+
+// This creates the following object
+// {
+//    mpg: 30
+//    gallons: 15
+//    manufacturer.name: "Chevrolet"
+// }
+```
+
+On top of traditional composition, there is also *embedding*. This allows for easier composition of structs. In the tradional composition form as shown above, one would get the name of the manufacturer by accessing `gasEngine.manufacturer.name`. Embedding instead allows the attributes of a lower order struct to be promoted to part of the higher order struct. This allows us to access the attributes as if they are declared directly in the higher order struct.
+
+
+```go
+type make struct {
+   name string
+}
+
+type gasEngine struct {
+   mpg uint8
+   gallons uint8
+   make
+}
+
+var chevyCruze gasEngine = gasEngine{30, 16, make{"Chevrolet"}}
+fmt.Println(chevyCruze.mpg, chevyCruze.gallons, chevyCruze.name) // Name is now directly accessed through the name attribute.
+
+
+// This creates the following object
+// {
+//    mpg: 30
+//    gallons: 15
+//    name: "Chevrolet"
+// }
+```
+
+We can also create anonymouse structs. This requires us to initialize and 
 
 ## Sources
 
