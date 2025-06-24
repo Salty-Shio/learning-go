@@ -1,5 +1,9 @@
 # GoLang - An introduction by video tutorials
 
+These notes were taken primarily taken while watching **Learn Go Fast: Full Tutorial** by *Alex Mux* with supplmentation from various sources.
+
+The code generated for each sement of the video except for the last can be found in `./tutorials` and the project at the end of the video can be found in `./project`.
+
 ## Introduction
 
 `Go` is an open source language created by Google. The language itself was created to improve the efficiency of programmers. It was designed with multicore, networked machines, and large codebases in mind. While this is true, it is also a general use lanaguage, which can be used for a variety of use cases. Because it was built with multicore machines in mind, it is especially useful for concurrency. `Go` is a compiled language, making it faster in comparisson to interpreted languages such as Python, and compiles directly to `machine code`, making it comparable to `C` or `C++`. It also has memory management and garbage collection built in to avoid memory leaks.
@@ -316,7 +320,7 @@ func intDivision(a int, b int) (int, int, error) {
 
 #### Function not defined?
 
-Because `Go` is compiled, no matter where it is placed, so long as the function is declared in the same package, `Go` will know about the function. In other words, so long as at some point the function is delcared in the same scope, the function will be defined and you will not encounter an error where the function has not yet been defined. This is because when `Go` compiles the language it has already processed the entire file.
+Because `Go` is compiled, no matter where it is placed, so long as the function is declared in the same package, `Go` will know about the function. In other words, so long as at some point the function is delcared in the same scope, the function will be defined and we will not encounter an error where the function has not yet been defined. This is because when `Go` compiles the language it has already processed the entire file.
 
 ### If statements
 
@@ -829,14 +833,14 @@ To change the value of the int at the pointers locaiton, we dereference the poin
 *p = 42 // Set the value at 0x1b0c to 42
 ```
 
-A common bug is having a nil pointer error. This means that you did not set the value of the pointer before attempting to set the value at the address.
+A common bug is having a nil pointer error. This means that we did not set the value of the pointer before attempting to set the value at the address.
 
 ```go
 var p *int32
 *p = 42 // Nil pointer error because p is pointing to nowhere
 ```
 
-You can assign the value of a pointer using the reference operator `&`. As with earlier where we declared our pointer, and a value `i` at location `0x1b08`. We can now reference the address of `i` using this operator.
+We can assign the value of a pointer using the reference operator `&`. As with earlier where we declared our pointer, and a value `i` at location `0x1b08`. We can now reference the address of `i` using this operator.
 
 ```go
 var p *int32 = new(int32) // Points to a new integer
@@ -848,15 +852,15 @@ p = &i // Now points to i instead of the new integer.
 *p = 42 // Changes the value of i
 ```
 
-This is where pointers diverge from regular variables. For instance, if there are two varialbes of `x` and `y`. If we write `x = y` the value from `y` is copied from `y` and then placed in the value at the location of `x`. This is how *most* things work in `Go`. For instance, functions in go are pass by value. This means that if you define a function and pass in a variable, the variable is not altered because the value is passed in, not the reference. If you instead wanted to alter the original variable you could pass in a reference to the variable so that the function would edit the original variable (though there are debates to be had about whether or not you should be doing that). Some other types in `Go` also funciton by reference rather than value. For instance, if you have a two slices `slice1` and `slice2`, and you set `slice1 = slice2`. Then when you edit `slice1` you are modifying `slice2` and vice versa. This is because a slice works by using pointers to an array under the hood, and so instead of creating a copy of the slice, you are actually just setting both `slice1` and `slice2` to point at the same array.
+This is where pointers diverge from regular variables. For instance, if there are two varialbes of `x` and `y`. If we write `x = y` the value from `y` is copied from `y` and then placed in the value at the location of `x`. This is how *most* things work in `Go`. For instance, functions in go are pass by value. This means that if we define a function and pass in a variable, the variable is not altered because the value is passed in, not the reference. If we instead wanted to alter the original variable we could pass in a reference to the variable so that the function would edit the original variable (though there are debates to be had about whether or not anyone should be doing that). Some other types in `Go` also funciton by reference rather than value. For instance, if we have a two slices `slice1` and `slice2`, and we set `slice1 = slice2`. Then when we edit `slice1` we are modifying `slice2` and vice versa. This is because a slice works by using pointers to an array under the hood, and so instead of creating a copy of the slice, we are actually just setting both `slice1` and `slice2` to point at the same array.
 
-To summarize, the point of that paragraph, if there are unexpected errors occuring where data is changing that shouldn't be, it would be pertinent to consult either the documenation, the internet, or the sweaty guy in your neighbors basement about whether or not the data you are using is being passed around by reference or by value.
+To summarize, the point of that paragraph, if there are unexpected errors occuring where data is changing that shouldn't be, it would be pertinent to consult either the documenation, the internet, or the sweaty guy in the neighbor's basement about whether or not the data we are using is being passed around by reference or by value.
 
 ### Pointers in Functions
 
-So with all that said, why would you potentially want to pass by reference instead of by value? There are a number of very valid reasons to do this, but first a discussion of reasons why it would be frowned upon. Passing many values around by reference can cause unpredictable behavior. A good way to think about it is that if everyone had a remote to one TV, and they all had different preferences, how long would the channel remain the same before changing. What are the odds that you could watch one episode of your favorite show all the way through without interuptions? Its the same for passing by reference. Allowing multiple things to access the same address can cause the value at that location to become difficult to predict, and if that value is imperative to the operation of multiple parts of your program it can cause cascading issues all the way down. In other words, explicitly defining, setting, and changing a variable generally produces cleaner, easier to maintain code. In regards to maintainability, pointers also can be a difficult concept to grasp, understand, and visualize, even with lots of experience. Pointers add a layer of abstraction to a value, where instead of `variable = value` there is now `variable = value that points to another place and that other place contains a value and the place that I am pointing to could change and then it would be both a different value and locaiton`. It can be a pain to debug code that points to other places.
+So with all that said, why would we want to pass by reference instead of by value? There are a number of very valid reasons to do this, but first a discussion of reasons why it would be frowned upon. Passing many values around by reference can cause unpredictable behavior. A good way to think about it is that if everyone had a remote to one TV, and they all had different preferences, how long would the channel remain the same before changing. What are the odds that we could watch one episode of our favorite show all the way through without interuptions? Its the same for passing by reference. Allowing multiple things to access the same address can cause the value at that location to become difficult to predict, and if that value is imperative to the operation of multiple parts of our program it can cause cascading issues all the way down. In other words, explicitly defining, setting, and changing a variable generally produces cleaner, easier to maintain code. In regards to maintainability, pointers also can be a difficult concept to grasp, understand, and visualize, even with lots of experience. Pointers add a layer of abstraction to a value, where instead of `variable = value` there is now `variable = value that points to another place and that other place contains a value and the place that I am pointing to could change and then it would be both a different value and locaiton`. It can be a pain to debug code that points to other places.
 
-So with that said, why would you want to use pointers? They are more efficient in some cases. Take for instance the following example.
+So with that said, why would we want to use pointers? They are more efficient in some cases. Take for instance the following example.
 
 ```go
 var arr = [5]int64{2, 4, 6, 8, 10}
@@ -892,9 +896,27 @@ fmt.Println(result) // [4, 16, 36, 64, 100]
 
 In the modified version of the code we have passed in the address of the array, and we dereference the pointer in the function. This modifies the orignial array. When we pass it back, it is passed back, it is passing back the original array. `Result` and `arr` end up pointing to the same location in memory. This helps to avoid creating copies of large pieces of data.
 
+### Garbage Collection and Go
+
+This is a side tangent that feels most fitting to place here. In the following example (an example from earlier), it should be clear that we can create a pointer pointing to one value, and then point away from that value later on with no way of returning to the first address.
+
+```go
+var p *int32 = new(int32) // Points to a new integer
+
+var i int32 // Points to a different new integer
+
+p = &i // Now points to i 
+```
+
+What happens to that first integer? Due to modern technical advancements in programming languages, we have something called *Garbage Collection*. The program will notice that the first int no longer has any way to be reached and will clear up the space for us, but that is probably one of the most ambiguos descriptions of that process we could get. 
+
+`Go` uses a *Tri Color Mark and Sweep* garbage collector. This is a process that runs in the `Go` runtime during execution concurrently with our program. This is important because it means that `Go` will not stop to complete the garbage collection process, rather it will take small slices of time during our program to free up memory. The *Tri Color Mark and Sweep* garbage collector (which is now just going to be called the GC)effectivly uses a tree algorithm to determine if objects are reachable or not. First, the GC looks for *root* objects. These are objects that definitely have a reference to them, and include things like globabl variables, variables on the stack, and registers. Next, the GC will mark everything as trash by setting its color to `white`. Each root object is set to `gray`, meaning that it is possible to reach that item but not all attached nodes have been checked yet. Each connected node is set to gray and added to the list of nodes to check. When a node has had all of it's attached node, the GC will set it's color to black and will move on. This is done until no more nodes are left in the list to check. When this is all said and done, items that have no way to reach them will be removed to clear up heap space.
+
+When does this happen? GC is handled by the `Go` runtime. Generally though, this will happen when the heap size grows or shrinks, during large amounts of memory allocation, and whenever the GC feels like running based on internal metrics and methods.
+
 ## Goroutines
 
-A Goroutine is a way to implement *Concurrency* in `Go`. This is *NOT* necessarily parallelism. A recap of the difference is that concurrency is desining your program to handle multiple tasks at once. This may mean flipping back and forth between the tasks, or working on another task while one tasks is waiting on something like an API call. This is in contrast to parallelism which uses multiple CPU cores to to multiple tasks at the same time. In other words, say there are two tasks each taking 10 cycles of a CPU core. With just concurrency and no parallelism, it will still take 20 cycles of the core to complete both tasks, they will just be done simultaneously. In parallelism, it will take 10 cycles because two cores will cycles through the tasks at the same time. *Goroutines can be parallel though*, so long as the system allows it. Go has an underlying schedule that will map `m` goroutines to `n` OS threads. 
+A Goroutine is a way to implement *Concurrency* in `Go`. This is *NOT* necessarily parallelism. A recap of the difference is that concurrency is desining our program to handle multiple tasks at once. This may mean flipping back and forth between the tasks, or working on another task while one tasks is waiting on something like an API call. This is in contrast to parallelism which uses multiple CPU cores to to multiple tasks at the same time. In other words, say there are two tasks each taking 10 cycles of a CPU core. With just concurrency and no parallelism, it will still take 20 cycles of the core to complete both tasks, they will just be done simultaneously. In parallelism, it will take 10 cycles because two cores will cycles through the tasks at the same time. *Goroutines can be parallel though*, so long as the system allows it. Go has an underlying schedule that will map `m` goroutines to `n` OS threads. As a general rule, concurrency is used to solve *I/O bottlenecked problems* such as waiting on a server to respond, asking users to input data. Parallelism is used for *CPU bound* or *Computationally Bottlenecked* problems such as processing visual data for a game or running calculations for neural nets (both problems which are generally offloaded to the GPU, which is really just a specialized miniature computer for handling embarassingly parallel computations).
 
 In this example, there is a mock database. We will attempt to call the database once for each ID. This will take a substantial amount of time to consecutively call this database.
 
@@ -981,7 +1003,7 @@ func dbCall(i int) {
 }
 ```
 
-There are even more options within the sync package to really specify how your program allows reading and writing to data. For instance there is the `RWMutex` which also provides the ability to lock and unlock reading separately from writing.
+There are even more options within the sync package to really specify how our program allows reading and writing to data. For instance there is the `RWMutex` which also provides the ability to lock and unlock reading separately from writing.
 
 ```go
 var m = sync.RWMutex{}
@@ -1012,10 +1034,174 @@ func save(result string) {
 
 `RLock` will check if there is any full lock in place. If there isn't, it will aquire a read lock. Many goroutines can have read locks at once. A full lock cannot be put in place until all read locks are clears. Once all read locks are cleared, a full lock can be put in place and no other locks can be aquired until that lock is cleared. In other words, only one goroutine can write to the slice at a time, and nothing can read from the slice until the write is done, however many routines can read from the slice all at once.
 
+## Channels
+
+Channels are the next step up from locks. They are a built in, thread safe way to synchronize and share data, as well as coordinate and manage goroutines. Thye are a typed data pipline that does not require explicitly defining locks. It should, however, be noted that this does not mean that channels don't rely on these things themselves. The underlying implementation of a channel is an underlying *circular queue* with a *mutex* to avoid race conditions. When go routines interact with channels, `Go` automatically handles things like defining, aquiring, and releasing locks for us. In other words, channels are a way to abstract away a lot of the complications of concurrent programming.
+
+```go
+func main() {
+
+	// Create a channel containing and integer with a size of 1. There is currently no value in c
+	var c = make(chan int) 
+
+	// Insert the value of 1 into the channel
+	c <- 1  
+
+	// Retrieves the value and sets i equal to the value in c
+	var i = <- c
+}
+```
+
+Here we can see how this is implemented with a queue. the `<-` operator is being used to insert a value and retrieve it later. This is in contrast to say setting a variable `y = 1` and then saying `x = y`. In that case, y still maintains its value. The channel, however, does not maintain value 1, as it has popped the value out of the circular queue.
+
+The code as is will cause a deadlock error though. This is because when writing to an unbuffered channel, the code will block until something reads from the channel. Because of this, the code stops when inserting the value of 1 and never move forward to retrieve and print the value. Rather than hanging, the creators of `Go` were smart enough to see this possiblity, and a *deadlock* error will be thrown instead.
+
+This example lacks the meat and bones of how channels are actually supposed to be used.
+
+```go
+func main() {
+	var c = make(chan int)
+	go process(c)
+	fmt.Println(<-c)
+}
+
+func process(c chan int) {
+	c <- 42
+}
+```
+
+This example will actually work. Earlier it was stated that when writing to an unbuffered channel in `Go`, the code will block. This is because just as two people must be present for a hand shake to occur, channels must have a corresponding `send` and `recieve` flag to complete the exchange of data.
+
+We can also use channels with loops as shown below:
+
+```go
+func main() {
+	var c = make(chan int)
+	go process(c)
+	// For loop will continually return to c until notified that no more transfers will occur
+	for v := range c {
+		// Print the value from the channel
+		fmt.Println(v)
+	}
+}
+
+func process(c chan int) {
+	// Add the values between 0 to 99 to the channel
+	for i:=0; i < 100; i++{
+		// Wait to pass off the data
+		c <- i
+	}
+	// Notify anywhere referencing this channel that the transfers are over
+	close(c)
+}
+```
+
+The `close(c)` method is imperative to this function as without it the program will throw another deadlock error. This is because unless we notify the for loop in `main()`, we never tell the program that there are no more transfers to happen. This in turn results in sitting at the entrance to the loop waiting to hear back from someone who is never going to call.
+
+We can also use the `defer` keyword in the function instead of putting the `close(c)` at the end of the funciton. The `defer` keyword deferrs a given action until after the function returns.
+
+```go
+func main() {
+	var c = make(chan int)
+	go process(c)
+	for v := range c {
+		fmt.Println(v)
+	}
+}
+
+func process(c chan int) {
+	defer close(c)
+	for i:=0; i < 100; i++{
+		c <- i
+	}
+}
+```
+
+Earlier there was mention of an unbuffered channel, meaning a channel with a single slot. How does a channel behave if it has multiple slots contained within it? It functions just as we might expect. It allows for multiple values to be written to the channel before blocking the code. This means that a process can work ahead while the recieving side churns away at it's process.
+
+```go
+func main() {
+	var c = make(chan int, 10)
+	go process(c)
+	for v := range c {
+		fmt.Println(i)
+		time.Sleep(time.Second*1)
+	}
+}
+
+func process(c chan int) {
+	defer close(c)
+	for i:=0; i < 100; i++{
+		c <- i
+	}
+	fmt.Println("Exiting Process")
+}
+```
+
+### Select Statements
+
+Lets also look at a select statement. What is a select statment? It's a special switch case statement that only works with channel operations, designed for concurrent communiation. Each case in a select statement must contain a channel operation. It's behavior allows for a goroutine to handle multiple channels of communication. When multiple cases are ready at the same time it randomly picks one case to process. It also has a default statement that will run immediately if no channels are ready.
+
+```go
+func sendMessage(chickenChannel chan string, tofuChannel chan string) {
+	select {
+		case tofuWebsite := <-tofuChannel:
+			fmt.Printf("\nEMAIL SENT: Found a deal on tofu at %s\n", tofuWebsite)
+		case chickenWebsite := <-chickenChannel:
+			fmt.Printf("\nTEXT SENT: Found a deal on chicken at %s\n", chickenWebsite)
+	}
+}
+```
+
+## Generics
+
+Generics are a way to avoid duplicating logic for functions that do similar things. An example of this is a sum function which takes in a slice of floats and returns a float. That's great, but what if we also want to add integers? Now we need to add a function that takes in integers. Howabout unsigned integers? That's another function. This can lead to a mass amount of code duplication. Instead we can use generics. Generics allow for the definition of a function that takes in multiple types and uses that type in the function regardless of what it is. This can be done by the following:
+
+```go
+var intSlice = []int{1, 2, 3}
+var intSum = sumSlice(intSlice)
+
+func sumSlice[T int | float32 | float64](slice []T) T {
+	var sum T
+	for _, v := range slice {
+		sum += v
+	}
+	return sum
+}
+```
+
+In this example, before defining the parameters in the `()` for the function, we declare our generic type `T` to be an `int`, `float32` or a `float64`. From this point onward, `T` can be mentally replaced with the type that is inserted into the function. In this case, `int` was inserted, so the slice was of type `int`, and the sum was declared as type `int`. Furthermore, we can get even more generic with the `any` type. This type allows for any type to be passed into the funciton. In our example though, this would throw an error. This is because not all types allow for the `+` operator and `Go` is smart enough to catch this. A place where an any type would make sense is a function that checks if a slice contains a certain number of elements. Regardless of what is inside the slice, any slice can be checked for the length. In other words, the function declaration would look like
+
+```go
+func checkLength[T any](slice []T) int {}
+```
+
+While there have been a number of example where generics are being used for functions, they can also be used for structs as well.
+
+## Building an API
+
+### Project structure
+
+There isn't much to say about this other than the fact that `Go` has general guidlines for structuring projects. To get more information on the general layout of this, go to [this repo](https://github.com/golang-standards/project-layout) to find more information on the subject.
+
+### Installing Packages
+
+One way to install packages is to import them. After declaring imports you can run `go mod tidy` which will search through your imports and install the packages for you.
+
+### Public or Private
+
+Functions in `Go`, like many other languages, can be public or private. What deliniates the two from each other? Whether or not the function name is capitalized. In other words `sum()` is a private method that cannot be imported but `Sum()` is a public method that can be. It's not like that makes it difficult to find errors or anything though.
+
+## Sidenotes
+
+### Make VS New
+
+What is the difference between the `make` keyword and the `new` keyword? They are used for different data types and return different values. Generally speaking, `new` is used to allocate and initialize memory for specified types. After new has allocated memory and zeroed out the value it returns a pointer to the value. For instance, `var x = new(int)` will go and zero out a space in memory and then return the address to x, where x now points to where new created the value. `Make` on the other hand is only used for specific types. These types are slices, maps, and channels. It creates the values and returns an initialized, non-zeroed, value. Another way to think about this is that `new` initializes data and `make` initializes a data structure.
+
 ## Sources
 
 [Development Docs](https://go.dev/doc/)
-[Learn GO Fast: Full Tutorial](https://www.youtube.com/watch?v=8uiZC0l4Ajw&t=490s)
+[Learn GO Fast: Full Tutorial](https://www.wetube.com/watch?v=8uiZC0l4Ajw&t=490s)
 [Go (Golang) programming language in 3 minutes](https://www.youtube.com/watch?v=8U8erH5qOZ8)
 
 ```
